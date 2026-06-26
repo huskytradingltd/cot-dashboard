@@ -93,11 +93,15 @@ current_data['Signal'] = current_data.apply(generate_signal, axis=1)
 # Display Matrix
 st.subheader(f"Cross-Asset Positioning (As of {latest_date.strftime('%Y-%m-%d')})")
 display_cols = ['Asset', 'Percentile', 'Z_Score', 'Momentum_4W', 'Signal']
-styled_df = current_data[display_cols].style.format({
+
+# We reset the index here to prevent the Pandas Styler KeyError
+display_df = current_data[display_cols].reset_index(drop=True)
+
+styled_df = display_df.style.format({
     'Percentile': '{:.1f}%',
     'Z_Score': '{:.2f}',
     'Momentum_4W': '{:.2%}'
-}).map(lambda x: 'color: green' if 'BUY' in str(x) else ('color: red' if 'SELL' in str(x) else ''), subset=['Signal'])
+}).map(lambda x: 'color: #00FF00' if 'BUY' in str(x) else ('color: #FF0000' if 'SELL' in str(x) else ''), subset=['Signal'])
 
 st.dataframe(styled_df, use_container_width=True)
 
