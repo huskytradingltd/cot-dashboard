@@ -97,7 +97,7 @@ styled_df = current_data[display_cols].style.format({
     'Percentile': '{:.1f}%',
     'Z_Score': '{:.2f}',
     'Momentum_4W': '{:.2%}'
-}).applymap(lambda x: 'color: green' if 'BUY' in str(x) else ('color: red' if 'SELL' in str(x) else ''), subset=['Signal'])
+}).map(lambda x: 'color: green' if 'BUY' in str(x) else ('color: red' if 'SELL' in str(x) else ''), subset=['Signal'])
 
 st.dataframe(styled_df, use_container_width=True)
 
